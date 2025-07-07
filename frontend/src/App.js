@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { fetchItems } from './api';
+import ItemForm from './components/ItemForm';
+import ItemList from './components/ItemList';
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetchItems().then(setItems);
+  }, []);
+
+  const handleAdd = (newItem) => {
+    setItems([...items, newItem]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>CRUD de Itens</h1>
+      <ItemForm onAdd={handleAdd} />
+      <ItemList items={items} />
     </div>
   );
 }
