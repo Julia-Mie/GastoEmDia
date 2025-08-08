@@ -13,3 +13,15 @@ def create_item(db: Session, item: schemas.ItemCreate):
     db.refresh(db_item)
     return db_item
 
+
+def delete_item(db: Session, item_id: int):
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if item:
+        db.delete(item)
+        db.commit()
+
+
+def get_item(db: Session, item_id: int):
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if item:
+        return item
